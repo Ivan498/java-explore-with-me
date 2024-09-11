@@ -1,56 +1,50 @@
 version: '3.1'
-
 services:
-
-  stats-server:
-    container_name: ewm-stats-service
-    build: ewm-stats-service/stats-service
-    depends_on:
-      stats-db:
-        condition: service_healthy
+  server:
+    build: stats-service/server
+    image: server
+    container_name: server
     ports:
       - "9090:9090"
       - "9091:9091"
+    depends_on:
+      - statdb
     environment:
-      - WEB_PORT=9090
-      - SPRING_PROFILES_ACTIVE=default
-      - DB_NAME=stats
-      - DB_HOST=stats-db
-      - DB_PORT=5432
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - SERVER_URL=http://server:9090
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://statdb:5432/statdb
+      - SPRING_DATASOURCE_USERNAME=ewm
+      - SPRING_DATASOURCE_PASSWORD=ewm
 
-  stats-db:
-    container_name: ewm-stats-db
-    image: postgres:14-alpine
-    volumes:
-      - stats-volume:/var/lib/postgresql/data
+  statdb:
+    image: postgres:16.1
+    container_name: statdb
     ports:
-      - "5433:5432"
+      - "5432:5432"
     environment:
-      - POSTGRES_DB=stats
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    healthcheck:
-      test: pg_isready -q -d $$POSTGRES_DB -U $$POSTGRES_USER
-      timeout: 5s
-      interval: 5s
-      retries: 10
+      - POSTGRES_PASSWORD=ewm
+      - POSTGRES_USER=ewm
+      - POSTGRES_DB=statdb
 
-  ewm-service:
-    container_name: ewm-main-service
-    build: ewm-main-service
+  main-service:
+    build: main-service
+    image: main-service
+    container_name: main-service
     ports:
       - "8080:8080"
-      - "8081:8081"
+    depends_on:
+      - main-db
+      - server
     environment:
-      - SPRING_PROFILES_ACTIVE=default
-      - WEB_PORT=8080
-      - SERVER_URL=http://server:8080
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/main-db
+      - SPRING_DATASOURCE_USERNAME=ewm
+      - SPRING_DATASOURCE_PASSWORD=ewm
+      - STATS_SERVER_URL=http://server:9090
 
-#  ewm-db:
-#    image: postgres:14-alpine
-
-volumes:
-  stats-volume:
+  main-db:
+    image: postgres:16.1
+    container_name: main-db
+    ports:
+      - "6542:5432"
+    environment:
+      - POSTGRES_PASSWORD=ewm
+      - POSTGRES_USER=ewm
+      - POSTGRES_DB=main-db
