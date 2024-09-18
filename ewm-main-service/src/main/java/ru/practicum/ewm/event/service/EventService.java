@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface EventService {
+
     Event addEvent(Long userId, NewEventDto newEventDto);
 
     EventFullDto getUserEventFullDtoById(Long userId, Long eventId);

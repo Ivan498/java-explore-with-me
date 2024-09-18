@@ -9,4 +9,5 @@ import java.util.List;
 public interface CompilationRepository extends CrudRepository<Compilation, Long> {
 
     List<Compilation> findAllByPinned(Boolean pinned, Pageable page);
+
 }
