@@ -57,7 +57,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiError handle(final Throwable e) {
-        log.warn(e.getMessage());
+        log.error(e.getMessage());
         return ApiError.builder()
                 .message(e.getMessage())
                 .reason("Internal server error")
