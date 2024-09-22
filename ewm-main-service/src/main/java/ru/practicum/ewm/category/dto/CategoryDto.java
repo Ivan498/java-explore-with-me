@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 @ToString
 @Builder
 public class CategoryDto {
-
     private Long id;
 
     @NotBlank
