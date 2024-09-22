@@ -1,4 +1,4 @@
-package ru.practicum.ewm.category.dto;
+package ru.practicum.ewm.comment.dto;
 
 import lombok.*;
 
@@ -9,13 +9,11 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Builder
-public class CategoryDto {
-
-    private Long id;
+@ToString
+public class NewCommentDto {
 
     @NotBlank
-    @Size(min = 1, max = 50)
-    private String name;
+    @Size(min = 1, max = 5000)
+    private String text;
 }

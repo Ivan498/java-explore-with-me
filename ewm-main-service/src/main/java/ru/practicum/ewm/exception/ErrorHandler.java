@@ -19,7 +19,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handle(final MethodArgumentNotValidException e) {
-        log.warn(e.getMessage());
+        log.warn("Bad Request: {}", e.getMessage());
         return ApiError.builder()
                 .errors(e.getStackTrace())
                 .message(e.getMessage())
@@ -32,7 +32,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError handle(final NotFoundException e) {
-        log.warn(e.getMessage());
+        log.warn("Not Found: {}", e.getMessage());
         return ApiError.builder()
                 .errors(e.getStackTrace())
                 .message(e.getMessage())
@@ -45,7 +45,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiError handle(final ConflictException e) {
-        log.warn(e.getMessage());
+        log.warn("Conflict: {}", e.getMessage());
         return ApiError.builder()
                 .errors(e.getStackTrace())
                 .message(e.getMessage())
@@ -58,7 +58,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiError handle(final DataIntegrityViolationException e) {
-        log.warn(e.getMessage());
+        log.warn("Conflict: {}", e.getMessage());
         return ApiError.builder()
                 .errors(e.getStackTrace())
                 .message(e.getMessage())
@@ -71,7 +71,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handle(final ValidationException e) {
-        log.warn(e.getMessage());
+        log.warn("Bad Request: {}", e.getMessage());
         return ApiError.builder()
                 .errors(e.getStackTrace())
                 .message(e.getMessage())
@@ -84,7 +84,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handle(final MissingServletRequestParameterException e) {
-        log.warn(e.getMessage());
+        log.warn("Bad Request: {}", e.getMessage());
         return ApiError.builder()
                 .errors(e.getStackTrace())
                 .message(e.getMessage())
@@ -97,7 +97,7 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ApiError handle(final PermissionDeniedException e) {
-        log.warn(e.getMessage());
+        log.warn("Forbidden: {}", e.getMessage());
         return ApiError.builder()
                 .errors(e.getStackTrace())
                 .message(e.getMessage())
@@ -110,10 +110,10 @@ public class ErrorHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ApiError handle(final Throwable e) {
-        log.warn(e.getMessage());
+        log.error("INTERNAL SERVER ERROR: {}", e.getMessage());
         return ApiError.builder()
                 .message(e.getMessage())
-                .reason("Internal server error")
+                .reason(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .status(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR))
                 .timestamp(LocalDateTime.now())
                 .build();

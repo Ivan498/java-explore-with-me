@@ -8,6 +8,7 @@ import ru.practicum.ewm.user.dto.UserShortDto;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Builder
 public class EventShortDto {
     private String annotation;

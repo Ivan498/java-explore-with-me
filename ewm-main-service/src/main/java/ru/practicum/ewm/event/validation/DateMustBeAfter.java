@@ -12,7 +12,6 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DateMustBeAfter {
-
     String message() default "date must be {value} later after now";
 
     Class<?>[] groups() default {};
