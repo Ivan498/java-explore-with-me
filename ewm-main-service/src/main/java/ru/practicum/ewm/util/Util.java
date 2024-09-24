@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 
 @UtilityClass
 public class Util {
-
     public static final String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public LocalDateTime toLocalDateTime(String dateString) {

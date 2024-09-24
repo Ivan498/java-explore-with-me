@@ -6,6 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Builder
 public class UserDto {
     private String email;

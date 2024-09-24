@@ -11,8 +11,6 @@ public class StatsClientConfig {
 
     @Bean
     public StatsClient statsClient(@Value("${ewm-stats-server.url}") String serverUrl, RestTemplateBuilder builder) {
-
         return new StatsClient(serverUrl, builder);
-
     }
 }
